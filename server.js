@@ -158,10 +158,19 @@ function testAuthentication(request, response) {
         response.end('Access granted! You\'re in!');
         return;
       } else {
+        // Log failed login attempt
+        console.log('Failed login attempt by ' + request.connection.remoteAddress);
+        const now = new Date();
+        fs.appendFile(
+          'failed-login-attempts.txt',
+          '[' + (now.getDate()+1) + '.' + (now.getMonth()+1) + '.' + now.getFullYear() + ' ' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() + '] Failed login attempt by ' + request.connection.remoteAddress + '\n',
+          () => {}
+        );
+
         response.writeHead(401, {
           'Content-Type': 'text/html'
         });
-        response.end('WOOP! WOOP! Invalid password!<br><br>Need to reset your password? Replace the password hash in config.yaml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
+        response.end('WOOP! WOOP! Invalid password!<br>This attempt as been logged.<br><br>Need to reset your password? Replace the password hash in config.yaml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
         return;
       }
 
@@ -209,9 +218,6 @@ const serverOptions = {
 };
 
 var server = https.createServer(serverOptions, function (request, response) {
-  // Handle requests here...
-  console.log(request.headers.referer);
-
   // If request is trying to authenticate
   if (request.url == '/api--authenticate') {
     testAuthentication(request, response);

@@ -2,4 +2,5 @@
 *index-*.html
 /node_modules/
 *.pem
+/failed-login-attempts.txt
 
