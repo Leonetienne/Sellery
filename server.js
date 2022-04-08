@@ -150,9 +150,10 @@ function testAuthentication(request, response) {
         // Create session
         const sessionId = createSession();
 
-        response.writeHead(200, {
+        response.writeHead(303, {
           'Content-Type': 'text/html',
-          'Set-Cookie': 'sesid=' + sessionId
+          'Set-Cookie': 'sesid=' + sessionId,
+          'Location': request.headers.referer
         });
         response.end('Access granted! You\'re in!');
         return;
@@ -204,6 +205,7 @@ function serverStaticFiles(request, response) {
 
 var server = http.createServer(function (request, response) {
   // Handle requests here...
+  console.log(request.headers.referer);
 
   // If request is trying to authenticate
   if (request.url == '/api--authenticate') {
