@@ -1,12 +1,74 @@
 <html>
   <head>
     <title>Authentication required</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <style>
+    body {
+      background-color: #d4f1fc;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+    }
+
+    form {
+      background-color: white;
+      border-radius: 15px;
+      padding: 1.5em;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 16pt;
+    }
+
+    form input {
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      background-color: #d4f1fc;
+      margin-top: 5px;
+      transition: transform 0.25s ease;
+    }
+
+    form input:not([type="submit"]) {
+      padding: 0.5em 1.5em;
+      text-align: left;
+      width: 100%;
+    }
+
+    form input:not([type="submit"]):focus,
+    form input[type="submit"]:hover {
+      transform: scale(1.05);
+    }
+
+    form input[type="submit"] {
+      padding: 0.5em 1.5em;
+      margin-top: 2em;
+      align-self: flex-end;
+      cursor: pointer;
+    }
+
+    form label {
+      display: block;
+      font-size: 8pt;
+      text-align: left;
+    }
+    </style>
+
   </head>
   <body>
-    <h1>Authentication required</h1>
     <form action="/api--authenticate" method="POST">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password"></input>
+      <h1>Authentication required</h1>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"></input>
+      </div>
       <input type="submit" value="Submit">
     </form>
   </body>
