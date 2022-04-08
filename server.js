@@ -1,4 +1,4 @@
-var http = require('http');
+var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
@@ -203,7 +203,12 @@ function serverStaticFiles(request, response) {
   });
 }
 
-var server = http.createServer(function (request, response) {
+const serverOptions = {
+  key: fs.readFileSync(config.SSL_KEY_FILE),
+  cert: fs.readFileSync(config.SSL_CERT_FILE)
+};
+
+var server = https.createServer(serverOptions, function (request, response) {
   // Handle requests here...
   console.log(request.headers.referer);
 
@@ -230,7 +235,6 @@ var server = http.createServer(function (request, response) {
   }
 });
 
-const port = 80;
-server.listen(port);
-console.log('Node.js sellery server running and listening to port ' + port);
+server.listen(config.WEBSERVER_PORT);
+console.log('Node.js sellery server running and listening to port ' + config.WEBSERVER_PORT);
 

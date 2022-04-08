@@ -1,3 +1,5 @@
 /downloads/
 *index-*.html
 /node_modules/
+*.pem
+
