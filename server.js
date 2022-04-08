@@ -174,7 +174,7 @@ function testAuthentication(request, response) {
         response.writeHead(401, {
           'Content-Type': 'text/html'
         });
-        response.end('WOOP! WOOP! Invalid password!<br>This attempt as been logged.<br><br>Need to reset your password? Replace the password hash in config.yaml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
+        response.end('WOOP! WOOP! Invalid password!<br>This attempt as been logged.<br><br>Need to reset your password? Replace the password hash in config.toml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
         return;
       }
 
