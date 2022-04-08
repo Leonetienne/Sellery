@@ -3,10 +3,10 @@ var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
 var crypto = require('crypto');
-var execSync = require('child_process').execSync;
+var toml = require('toml');
 
-//! How many seconds (from the last interaction) a session stays valid
-const SESSION_DURATION = 10*60;
+// Parse config file
+const config = toml.parse(fs.readFileSync('config.toml', 'utf-8'));
 
 // Just a few mime types
 const contentTypes = {
@@ -58,7 +58,7 @@ function isSessisionValid(id) {
   var sessionById = filteredSessions[0];
 
   // Is the session still valid?
-  if (Date.now() - sessionById.timestamp > SESSION_DURATION * 1000) {
+  if (Date.now() - sessionById.timestamp > config.SESSION_DURATION * 1000) {
     console.log('Session is no longer valid, because it expired... Removing it...');
 
     // Remove the session from the list of sessions
@@ -118,9 +118,6 @@ function serveAuthenticatePage(request, response) {
   });
 }
 
-// FIX THIS BS!
-const PASSWD_HASH = 'a3c1443b087cf5338d3696f6029fdf791ee4829a27e19c9f257a06ca0d88b5b518ac9868bb13199e807553bda62d3dc15b6354862f34fcab0a7c4c45530349ea';
-
 function testAuthentication(request, response) {
     // Wait for the request to have been received completely (including request body)
     console.log('Request is trying to authenticate... Waiting for request body...');
@@ -144,7 +141,7 @@ function testAuthentication(request, response) {
       const passwordHash = SHA512Digest(password);
 
       // Is the password good?
-      if (passwordHash === PASSWD_HASH) {
+      if (passwordHash === config.PASSWD_HASH) {
         // Yes, it is:
         // Create session
         const sessionId = createSession();
@@ -159,7 +156,7 @@ function testAuthentication(request, response) {
         response.writeHead(401, {
           'Content-Type': 'text/html'
         });
-        response.end('WOOP! WOOP! Invalid password!<br><br>Need to reset your password? Replace the password hash in access.yaml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
+        response.end('WOOP! WOOP! Invalid password!<br><br>Need to reset your password? Replace the password hash in config.yaml with a new one.<br>This password hashes to: <em>' + passwordHash + '</em>.');
         return;
       }
 
@@ -212,7 +209,6 @@ var server = http.createServer(function (request, response) {
 
     // Parse request cookies
     const cookies = parseCookies(request);
-    console.log(cookies);
 
     // Check if the user is authenticated
     if ((cookies.hasOwnProperty('sesid')) && (isSessisionValid(cookies['sesid']))) {
