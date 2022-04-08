@@ -94,10 +94,12 @@ function parseCookies(request) {
     return list;
 }
 
+//! Duh?
 function SHA512Digest(string) {
   return crypto.createHash('sha512').update(string, 'utf-8').digest('hex');
 }
 
+//! This function simply serves the authentication page
 function serveAuthenticatePage(request, response) {
   fs.readFile(__dirname + '/authenticate.html', function (error, data) {
     if (!error) {
@@ -118,6 +120,8 @@ function serveAuthenticatePage(request, response) {
   });
 }
 
+//! This function will handle the api--authenticate call, checks if the users password
+//! is valid, and if yes, creates a new session and sets the session cookie.
 function testAuthentication(request, response) {
     // Wait for the request to have been received completely (including request body)
     console.log('Request is trying to authenticate... Waiting for request body...');
@@ -164,6 +168,7 @@ function testAuthentication(request, response) {
     });
 }
 
+//! This function just serves files as they are...
 function serverStaticFiles(request, response) {
   // Fetch requested file
   fs.readFile(__dirname + request.url, function (error, data) {
