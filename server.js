@@ -8,6 +8,10 @@ var toml = require('toml');
 // Parse config file
 const config = toml.parse(fs.readFileSync('config.toml', 'utf-8'));
 
+// Compose webroot directory
+const webrootDir = config.WEBROOT
+  .replace('$WORKING_DIR', __dirname);
+
 // Just a few mime types
 const contentTypes = {
   '.html': 'text/html',
@@ -181,7 +185,7 @@ function testAuthentication(request, response) {
 //! This function just serves files as they are...
 function serverStaticFiles(request, response) {
   // Fetch requested file
-  fs.readFile(__dirname + request.url, function (error, data) {
+  fs.readFile(webrootDir + request.url, function (error, data) {
     if(!error) {
         const mimetype = path.extname(request.url);
         if (!(typeof mimetype === 'undefined')) {

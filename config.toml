@@ -1,5 +1,12 @@
 # Sellery configuration file
 
+# Serve files from this directory (Path must be absolute)
+#   Use $WORKING_DIR to subsitute the current working directory
+#   So, if you want to server relative paths, use:
+#     $WORKING_DIR/relative/path
+#   Paths should NOT end with a '/'!
+WEBROOT = '$WORKING_DIR'
+
 # This is the SHA512 digest to check the password against
 PASSWD_HASH = 'a3c1443b087cf5338d3696f6029fdf791ee4829a27e19c9f257a06ca0d88b5b518ac9868bb13199e807553bda62d3dc15b6354862f34fcab0a7c4c45530349ea'
 
@@ -9,7 +16,7 @@ SESSION_DURATION = 600
 # The port the webserver runs on
 WEBSERVER_PORT = 443
 
-# SSL key and certificate (you have to generate these yourself)
-SSL_KEY_FILE = "key.pem"
-SSL_CERT_FILE = "cert.pem"
+# SSL key and certificate (you have to generate these yourself!)
+SSL_KEY_FILE = 'key.pem'
+SSL_CERT_FILE = 'cert.pem'
 
