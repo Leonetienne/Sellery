@@ -103,6 +103,20 @@ function SHA512Digest(string) {
   return crypto.createHash('sha512').update(string, 'utf-8').digest('hex');
 }
 
+//! Duh?
+function hashPassword(password) {
+  // Salt it
+  password = 'PQoFvPytZyi7yW/uX4IQ5I' + password + 'ZNUwEfVyn55pI91Myp2+RrOXWFtx5';
+
+  // Shake it
+  for (let i = 0; i < password.length * 500; i++) {
+    password = SHA512Digest(password + 'z4J7qWugOOfjd8FBbpcFyANjfe4axc4fM2Dj65IMr')
+  }
+
+  // Serve it
+  return password;
+}
+
 //! This function simply serves the authentication page
 function serveAuthenticatePage(request, response) {
   fs.readFile(__dirname + '/authenticate.html', function (error, data) {
@@ -146,7 +160,7 @@ function testAuthentication(request, response) {
       // Extract password from the request and hash it
       const postData = querystring.parse(requestBody);
       const password = postData['password'];
-      const passwordHash = SHA512Digest(password);
+      const passwordHash = hashPassword(password);
 
       // Is the password good?
       if (passwordHash === config.PASSWD_HASH) {

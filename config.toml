@@ -8,7 +8,7 @@
 WEBROOT = '/var/www/html'
 
 # This is the SHA512 digest to check the password against
-PASSWD_HASH = 'a3c1443b087cf5338d3696f6029fdf791ee4829a27e19c9f257a06ca0d88b5b518ac9868bb13199e807553bda62d3dc15b6354862f34fcab0a7c4c45530349ea'
+PASSWD_HASH = '034ff213a060a0888230c3934cfb1cb1f80ab3f211a114b713598efac2d1a68f8d3402c6b08ace2f3990c4c029351d1141cf47ebc378fc9a83a5dddda6e38a8c'
 
 # Sessions stay valid this many seconds, if inactive. Default: 600 (=10 minutes)
 SESSION_DURATION = 600
