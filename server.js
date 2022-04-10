@@ -184,10 +184,13 @@ function testAuthentication(request, response) {
 
 //! This function just serves files as they are...
 function serverStaticFiles(request, response) {
+  // Return index.html if no url is supplied
+  const urlToFetch = (request.url != '/') ? request.url : '/index.html';
+
   // Fetch requested file
-  fs.readFile(webrootDir + request.url, function (error, data) {
+  fs.readFile(webrootDir + urlToFetch, function (error, data) {
     if(!error) {
-        const mimetype = path.extname(request.url);
+        const mimetype = path.extname(urlToFetch);
         if (!(typeof mimetype === 'undefined')) {
 
         response.writeHead(200, {
@@ -200,7 +203,7 @@ function serverStaticFiles(request, response) {
           'Content-Type': 'text/html'
         });
 
-        console.error('Unknown file mime type for file: ' + __dirname + request.url);
+        console.error('Unknown file mime type for file: ' + __dirname + urlToFetch);
         response.end('Unknown file mime type.');
         return;
       }
