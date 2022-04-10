@@ -5,7 +5,7 @@
 #   So, if you want to serve relative paths, use:
 #     $WORKING_DIR/relative/path
 #   Paths should NOT end with a '/'!
-WEBROOT = '$WORKING_DIR'
+WEBROOT = '/var/www/html'
 
 # This is the SHA512 digest to check the password against
 PASSWD_HASH = '034ff213a060a0888230c3934cfb1cb1f80ab3f211a114b713598efac2d1a68f8d3402c6b08ace2f3990c4c029351d1141cf47ebc378fc9a83a5dddda6e38a8c'
